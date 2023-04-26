@@ -1,0 +1,37 @@
+@startuml
+
+header Renata Capstone Project Bangkit 2023 
+title RENATA Activity Diagram
+
+partition "RENATA App" {
+  (*) --> "Authentication" 
+  if "Check Authentication" then
+    --> "Authentication Failed"
+    "Authentication Failed" --> "Authentication"
+  else
+    --> "Main Menu"
+  endif
+  "Main Menu" --> "Click Capture Image Button"
+  if "Image Capture" then
+    --> "Image Capture Failed" 
+    "Image Capture Failed" --> "Click Capture Image Button"
+  else
+    --> "Capture Image" 
+  endif
+}
+
+partition "Machine Learning Engine" {
+  "Capture Image" --> "Machine Learning Model Determine Soil Type"
+  if "Soil Type Detection Image Not Detected" then
+    --> "Soil Type Detection Failed"
+   "Soil Type Detection Failed" --> "Capture Image"
+  else
+    --> "Soil Type Result" 
+  endif
+  "Soil Type Result" --> "Machine Learning Model Determine Plantation Type"
+  "Machine Learning Model Determine Plantation Type" --> "Plantation Recommendation Result"
+
+}
+
+"Plantation Recommendation Result" --> (*)
+@enduml
