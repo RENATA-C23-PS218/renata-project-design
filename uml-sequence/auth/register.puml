@@ -1,0 +1,61 @@
+@startuml
+
+header ReNaTa Document Design 2023
+title User Registration
+
+actor user
+participant ReNaTa
+participant backend
+
+note left: Information fields: \n Name,\n Email \n Password, \n Phone Number
+note right: OTP format: 6-digit code
+
+loop until all fields provided
+    user->ReNaTa: [POST] user information fields
+    backend<-ReNaTa: saves information
+
+    alt information fields are complete and valid
+        backend->backend: user registered
+        backend->user: sends phone OTP or email verification
+        note right: user needs to enter OTP
+        
+        loop until OTP successfully verified
+            user->ReNaTa: enter OTP provided from backend 
+            backend<-ReNaTa: send OTP
+            alt verify OTP
+                backend->backend: verify OTP 
+                note left
+                    OTP 4-digit code
+                    OTP attempts limit: 3
+                    OTP verification time limit: 5 minutes
+                    User cancellation: 
+                        click "Cancel" button 
+                        or make request 
+                        to delete account
+                end note
+                
+                backend->ReNaTa: send JWT and success notification
+                user<-ReNaTa: Main Page
+            else OTP verification failed 
+                note right: Error handling: return 400 Bad Request status code
+
+                backend->ReNaTa: registration failed
+                user<-ReNaTa: resend OTP
+            else User Canncellation
+                user->ReNaTa: click cancel button 
+                backend<-ReNaTa: hit cancel endpoint 
+                backend->backend: OTP expires
+                backend->ReNaTa: registration canceled
+                user<-ReNaTa: registration canceled notification 
+            end
+        end
+    else information fields are incomplete or invalid
+        note right: Error handling:\n return 400 Bad Request status code
+        
+        backend->ReNaTa: registration failed
+        user<-ReNaTa: enter missing/valid fields
+    end
+end
+
+
+@enduml
