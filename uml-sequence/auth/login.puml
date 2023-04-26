@@ -1,0 +1,32 @@
+@startuml
+
+header ReNaTa Document Design 2023
+title User Authentication
+
+actor user
+participant ReNaTa
+participant backend
+
+
+loop until valid credentials provided
+    user->ReNaTa: [POST] credentials
+    note left: Credentials format: \n username and password
+    backend<-ReNaTa: request authentication
+    backend->backend: authenticate
+
+    alt valid credentials 
+        backend->ReNaTa: authentication SUCCESS, send token
+        user<-ReNaTa: authentication SUCCESS, assign token
+        note right: Token format: \n JWT
+        note right: Token validity: \n 24 hours
+    else wrong credentials 
+        backend->ReNaTa: authentication FAILED
+        user<-ReNaTa: authentication FAILED
+        note right: Error handling: \n return 401 Unauthorized status code
+        note left: Malformed credentials: \n return 400 Bad Request status code
+    end
+end
+
+
+
+@enduml
