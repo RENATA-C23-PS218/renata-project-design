@@ -1,0 +1,39 @@
+Table Users { 
+   id uuid [primary key]
+   email varchar(20)
+   password varchar(20)
+   profile_picture varchar(50)
+}
+
+Table Profiles { 
+  id integer [primary key]
+  user_id uuid
+}
+
+Ref: Profiles.user_id > Users.id
+
+Table OTP { 
+  id integer [primary key]
+  user_id uuid
+  otp integer
+  expired boolean
+}
+
+Ref: OTP.user_id > Users.id
+
+Table Soils { 
+  id integer [primary key] 
+  name varchar
+}
+
+Table Plants { 
+  id integer [primary key]
+  soil_id integer
+}
+Ref: Plants.soil_id > Soil.id
+
+Table Scans {
+  id integer [primary key]
+  user_id integer
+}
+
