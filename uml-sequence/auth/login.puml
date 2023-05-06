@@ -27,6 +27,4 @@ loop until valid credentials provided
     end
 end
 
-
-
 @enduml
