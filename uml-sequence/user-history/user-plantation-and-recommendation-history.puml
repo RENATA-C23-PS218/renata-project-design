@@ -1,0 +1,28 @@
+@startuml
+
+header ReNaTa Document Design 2023
+title User Your History UML
+
+actor user
+participant ReNaTa
+participant backend
+
+
+loop until there's no user history
+    user->ReNaTa: in "Your History" Page Request
+    note right: User scroll the "Your History Page"\nperform request every 5 paginated items. 
+    backend<-ReNaTa: Request User History.
+    backend->backend: Get User History based on the ID.
+
+    alt user success get history 
+        backend->ReNaTa: give history
+        note right: the history must be paginated by 5 history
+        user<-ReNaTa: preview the history and the results.
+    else user failed to get history
+        backend->ReNaTa: send status response there's no history.
+        note right: Send 400 status\nmessage: "You've got no History on Performing Detection"  
+        user<-ReNaTa: Display no History Page.
+    end
+end
+
+@enduml
