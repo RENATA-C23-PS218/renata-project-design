@@ -1,39 +1,80 @@
-Table Users { 
-   id uuid [primary key]
-   email varchar(20)
-   password varchar(20)
-   profile_picture varchar(50)
+Project RENATA_DEV { 
+  database_type: "PostgreSQL"
+  Note: "This is the RENATA application database Entity Relationship diagram"
 }
 
-Table Profiles { 
-  id integer [primary key]
-  user_id uuid
+Table Roles  [note: "Provide specific role for the Users"] { 
+  id uuid  [primary key, note: "Unique identifier for the Roles"]
+  name varchar(25)  [note: "Name of the role such as Superadmin, Admin, User, Guest"]
+  created_at timestamp  [note: "Time of creation"]
+  updated_at timestamp  [note: "Time of update"]
 }
 
+Table Access  [note: "Provide the specific permission into the endpoint or page"] {
+  id uuid  [primary key, note: "Unique identifier for Access"]
+  role_id uuid  [note: "Foreign key of the id of Roles entity"]
+  read boolean  [note: "Permission to read on the specific endpoint"]
+  write boolean  [note: "Permission to write on the specific endpoint"]
+  created_at timestamp  [note: "Time of creation"]
+  updated_at timestamp  [note: "Time of update"]
+}
+Ref: Access.role_id > Roles.id
+
+Table Users  [note: "Provide the account information for authentication"] { 
+  id uuid  [primary key, note: "Unique identifier for Users"]
+  email varchar(20) [note: "Email information for Users account, should be encypted"]
+  password varchar(20) [note: "Password for Users account, should be encrypted"]
+  role_id uuid [note: "Roles for the Users"]
+  created_at timestamp [note: "Time of creation"]
+  updated_at timestamp [note: "Time of update"]
+}
+Ref: Users.role_id > Roles.id
+
+Table Profiles [note: "Provide the detailed Information of users"] { 
+  id integer  [primary key, note: "Unique identifier for Profiles"]
+  user_id uuid [note: "Foreign Key of id of Users entity"]
+  profile_picture varchar [note: "Picture profile of the users, stored in the Cloud Storage. In here stores url"]
+  created_at timestamp [note: "Time of creation"]
+  updated_at timestamp [note: "Time of update"]
+}
 Ref: Profiles.user_id > Users.id
 
-Table OTP { 
-  id integer [primary key]
-  user_id uuid
-  otp integer
-  expired boolean
+Table OTP [note: "Provide the OTP Number for Registration and Reset Password"]{ 
+  id integer  [primary key, note: "Unique identifier for OTP"]
+  user_id uuid [note: "Foreign Key Users entity"]
+  otp integer [note: "OTP value that user must enter 4 random numbers"]
+  expired boolean [note: "Expired identifier, deleted every 24 minutes"]
+  created_at timestamp [note: "Time of creation"]
+  updated_at timestamp [note: "Time of update"]
 }
-
 Ref: OTP.user_id > Users.id
 
-Table Soils { 
-  id integer [primary key] 
-  name varchar
+Table Soils [note: "Provide the soils information"] { 
+  id integer  [primary key, note: "Unique identifier for Soils"] 
+  name varchar [note: "Name of the Soils"]
+  created_at timestamp [note: "Time of creation"]
+  updated_at timestamp [note: "Time of update"]
 }
 
-Table Plants { 
-  id integer [primary key]
-  soil_id integer
+Table Plants [note: "Provide the plants information" ] { 
+  id integer [primary key, note: "Unique identifier for Soils"]
+  soil_id integer [note: "Foreign key Soils entity"]
+  name varchar [note: "Foreign key of name"]
+  description text [note: "Description of the Plants"]
+  created_at timestamp [note: "Time of creation"]
+  updated_at timestamp [note: "Time of update"]
 }
-Ref: Plants.soil_id > Soil.id
+Ref: Plants.soil_id > Soils.id
 
-Table Scans {
-  id integer [primary key]
-  user_id integer
+Table Scans  [note: "this provide the history of the user scans, to be displayed into the History Page" ]{ 
+  id integer  [primary key, note: "Unique identifier for Scans"]
+  user_id uuid [note: "Foreign Key Users entity"]
+  soil_id id [note: "Foreign Key Soils entity"]
+  plant_id id [note: "Foreign Key Plants entity"]
+  created_at timestamp [note: "Time of creation"]
+  updated_at timestamp [note: "Time of update"]
 }
 
+Ref: Scans.user_id > Users.id
+Ref: Scans.soil_id > Soils.id
+Ref: Scans.plant_id > Plants.id
