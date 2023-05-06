@@ -1,0 +1,22 @@
+@startuml
+
+header ReNaTa Document Design 2023
+title Profile Functions
+
+actor user
+participant ReNaTa
+participant backend
+
+note left: User can view and edit their profile information such as name, email, and password
+
+user->ReNaTa: request to view profile information
+backend<-ReNaTa: retrieve user profile information
+
+alt profile information is found
+    backend->user: send profile information
+else profile information is not found
+    backend->ReNaTa: sends error notification
+    user<-ReNaTa: receives error notification
+end
+
+@enduml
