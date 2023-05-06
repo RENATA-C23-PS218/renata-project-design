@@ -1,0 +1,29 @@
+@startuml
+
+header ReNaTa Document Design 2023
+title Soil Detection by User Uploading the Image
+
+actor user
+participant ReNaTa
+participant backend
+participant ML
+
+user->ReNaTa: request to detect soil from image
+note right: image format: \n.jpg, \n.png
+
+ReNaTa->backend: sends the image request
+backend->ML: sends the image for processing
+
+alt image processed successfully
+    ML->ML: preprocess the image
+    ML->ML: pass the image to CNN model for prediction
+    ML->backend: sends the predicted soil type
+    backend->ReNaTa: sends the predicted soil type
+    user<-ReNaTa: shows the predicted soil type to the user
+else image processing failed
+    ML->backend: sends an error message
+    backend->ReNaTa: sends an error message
+    user<-ReNaTa: shows the error message to the user
+end
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+header ReNaTa Document Design 2023
+title Detecting Soil from User-taken Picture
+
+actor user
+participant ReNaTa
+participant backend
+participant ML
+
+note left: User can take picture of soil and request soil type detection
+
+user->ReNaTa: request to detect soil type from user-taken picture
+ReNaTa->backend: sends user-taken picture
+alt picture is valid
+    backend->ML: use CNN algorithm to detect soil type
+    ML->backend: sends soil type detected
+    backend->backend: provide and fetch the plantation recommendation\nusing the soil type parameters.
+    backend->ReNaTa: sends soil type detected\nwith the plantation recommendataion
+    user<-ReNaTa: sends soil type detected
+else picture is invalid
+    backend->ReNaTa: sends notification failed
+    user<-ReNaTa: sends notification failed
+end
+
+@enduml
