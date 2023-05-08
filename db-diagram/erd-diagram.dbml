@@ -45,7 +45,8 @@ Table OTP [note: "Provide the OTP Number for Registration and Reset Password"]{
   id integer  [primary key, note: "Unique identifier for OTP"]
   user_id uuid [note: "Foreign Key Users entity"]
   otp integer [note: "OTP value that user must enter 4 random numbers"]
-  expired boolean [note: "Expired identifier, deleted every 24 minutes"]
+  expired timestamp [note: "Expired time, set 10 minutes"]
+  is_used boolean [note: "Expired identifier true or false"]
   created_at timestamp [note: "Time of creation"]
   updated_at timestamp [note: "Time of update"]
 }

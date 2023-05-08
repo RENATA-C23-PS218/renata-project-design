@@ -27,7 +27,7 @@ loop until all fields provided
                 note left
                     OTP 4-digit code
                     OTP attempts limit: 3
-                    OTP verification time limit: 5 minutes
+                    OTP verification time limit: 10 minutes
                     User cancellation: 
                         click "Cancel" button 
                         or make request 
