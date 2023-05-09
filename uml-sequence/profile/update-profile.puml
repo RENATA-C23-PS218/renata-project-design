@@ -1,7 +1,7 @@
 @startuml
 
 header ReNaTa Document Design 2023
-title Profile Functions
+title Update Profile Functions
 
 actor user
 participant ReNaTa
@@ -10,25 +10,19 @@ participant backend
 note left: User can view and edit their profile information such as name, email, and password
 
 user->ReNaTa: request to update profile information
-note right: Profile form: \nName, \nEmail, \nPassword, \nProfile Image
-
 user->ReNaTa: input profile form
 ReNaTa->ReNaTa: check the form input fields, \nuse checker for the handling
 backend<-ReNaTa: sends the form input
-
-alt profile image included
-    backend->backend: save profile image 
-    note right:use cloud storage,\nuse the profile image by creating the url
-end
+note right : PUT /profile\nbody : {name, phone, address}\nheader : {Content-Type: application/json}\n 
 
 backend->backend: update profile information 
 alt profile information updated successfully
     backend->ReNaTa: sends notification success and status code 200
-    note right: status code 200 for success
+    note right: Response Code: 200\nstatus:"success"\nmessage:"profile information created successfully"
     user<-ReNaTa: successfully update notification
 else profile information failed to update
     backend->ReNaTa: sends notification failed
-    note right: status code 400(if the user bad request) or \n 500(if there's problem with the backend)
+    note right: Response Code: 400\nstatus:"failed"\nmessage:"profile information failed to created"
     user<-ReNaTa: sends notification failed
 end
 

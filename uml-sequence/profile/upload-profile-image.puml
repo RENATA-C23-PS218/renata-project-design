@@ -1,0 +1,39 @@
+@startuml
+header ReNaTa Document Design 2023
+title Upload Profile Image Functions
+
+actor user
+participant ReNaTa
+participant backend
+database cloud
+
+user -> ReNaTa: user click button upload profile image 
+user <- ReNaTa: provide page for upload profile image
+user -> ReNaTa: user insert profile image 
+
+alt user image type is not png/jpg/jpeg
+    ReNaTa -> user: failed to upload image
+end
+
+alt token is valid
+    backend -> ReNaTa: 401 Unauthorized
+    user <- ReNaTa: "Please login again"
+else token is invalid
+    ReNaTa-> backend: POST /profile-image 
+    note left: body : {image: image.png}\nheader : {Content-Type: multipart/form-data}\nAuthorization: Bearer token
+    backend -> backend: check token, image type
+    alt user image type is not png/jpg/jpeg
+        backend->ReNaTa: failed to upload profile image 
+        note right: Status Code: 409\nmessage:\n"conflicting type of image,\nplease provide the right image,\ncheck your image type"
+        ReNaTa->user: forward message in toast
+    end
+
+    backend -> cloud: upload profile image
+    cloud -> cloud: save profile image
+    cloud -> backend: return profile image link url
+    backend -> backend: save profile image link url to Profile entity into the ID of User
+    backend -> ReNaTa: success to upload image
+    note right: Status Code: 200\nmessage:\n"success to upload image"
+    ReNaTa -> user: forward message in toast
+end
+@enduml
