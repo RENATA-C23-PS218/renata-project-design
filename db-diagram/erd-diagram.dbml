@@ -33,6 +33,8 @@ Ref: Users.role_id > Roles.id
 Table Profiles [note: "Provide the detailed Information of users"] { 
   id integer  [primary key, note: "Unique identifier for Profiles"]
   user_id uuid [note: "Foreign Key of id of Users entity"]
+  first_name varchar(20) [note: "First name of the user Profiles"]
+  last_name varchar(20) [note: "Last name of the user Profiles"]
   avatar_link varchar [note: "Avatar profile of the users, stored in the Cloud Storage. In here stores url"]
   phone varchar [note: "User profile phone number"]
   address varchar [note: "User domicile address"]
