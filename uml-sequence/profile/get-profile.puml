@@ -21,6 +21,6 @@ alt profile information is not found from token
 end
 
 backend->ReNaTa: sends profile information
-note right: Status Code: 200,\nContent-Type: application/json\nmessage: "Successfully Get Profile"\ndata: {\n name: "name",\n email: "email",\n avatar-link: "link",\n phone: "phone",\n address: "address"\n} 
+note right: Status Code: 200,\nContent-Type: application/json\nmessage: "Successfully Get Profile"\ndata: {\n full_name: "full name",\n first_name: "first_name",\n last_name: "last_name"\n email: "email",\n avatar-link: "link",\n phone: "phone",\n address: "address"\n} 
 ReNaTa->user: sends profile information
 @enduml

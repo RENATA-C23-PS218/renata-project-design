@@ -16,7 +16,7 @@ alt input fields type not validated
     ReNaTa->user: send toast failed notification
 end
 backend<-ReNaTa: sends the form input
-note right : PUT /profile\nbody : {name, phone, address}\nheader : {Content-Type: application/json}\n 
+note right : PUT /profile\nbody : {first_name, last_name, phone, address}\nheader : {Content-Type: application/json}\n 
 
 backend->backend: update profile information 
 alt profile information updated successfully
