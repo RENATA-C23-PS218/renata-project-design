@@ -12,6 +12,9 @@ note left: User can view and edit their profile information such as name, email,
 user->ReNaTa: request to update profile information
 user->ReNaTa: input profile form
 ReNaTa->ReNaTa: check the form input fields, \nuse checker for the handling
+alt input fields type not validated
+    ReNaTa->user: send toast failed notification
+end
 backend<-ReNaTa: sends the form input
 note right : PUT /profile\nbody : {name, phone, address}\nheader : {Content-Type: application/json}\n 
 
