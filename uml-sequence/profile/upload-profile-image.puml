@@ -33,7 +33,7 @@ else token is invalid
     cloud -> backend: return profile image link url
     backend -> backend: save profile image link url to Profile entity into the ID of User
     backend -> ReNaTa: success to upload image
-    note right: Status Code: 200\nmessage:\n"success to upload image"
+    note right: Status Code: 200\navatar-link: "avatar-link-google-bucket.com"\nmessage:\n"success to upload image"\n\nFrom the avatar link\nyou can render\nthe profile image
     ReNaTa -> user: forward message in toast
 end
 @enduml
