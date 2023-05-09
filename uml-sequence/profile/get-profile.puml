@@ -10,13 +10,17 @@ participant backend
 note left: User can view and edit their profile information such as name, email, and password
 
 user->ReNaTa: request to view profile information
-backend<-ReNaTa: retrieve user profile information
+backend<-ReNaTa: GET /profile
+note right : GET /profile\nheader : {Content-Type: application/json}\nAuthorization: Bearer token 
+backend->backend: check if token is valid
 
-alt profile information is found
-    backend->user: send profile information
-else profile information is not found
+alt profile information is not found from token
     backend->ReNaTa: sends error notification
+    note right: Status Code: 404,\nContent-Type: application/json\nerror: "Profile not found"\n
     user<-ReNaTa: receives error notification
 end
 
+backend->ReNaTa: sends profile information
+note right: Status Code: 200,\nContent-Type: application/json\nmessage: "Successfully Get Profile"\ndata: {\n name: "name",\n email: "email",\n avatar-link: "link",\n phone: "phone",\n address: "address"\n} 
+ReNaTa->user: sends profile information
 @enduml
