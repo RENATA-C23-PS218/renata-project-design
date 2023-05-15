@@ -75,11 +75,9 @@ Table Scans  [note: "this provide the history of the user scans, to be displayed
   id integer  [primary key, note: "Unique identifier for Scans"]
   user_id uuid [note: "Foreign Key Users entity"]
   soil_id id [note: "Foreign Key Soils entity"]
-  plant_id id [note: "Foreign Key Plants entity"]
   created_at timestamp [note: "Time of creation"]
   updated_at timestamp [note: "Time of update"]
 }
 
 Ref: Scans.user_id > Users.id
 Ref: Scans.soil_id > Soils.id
-Ref: Scans.plant_id > Plants.id
